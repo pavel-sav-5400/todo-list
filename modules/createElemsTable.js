@@ -36,11 +36,11 @@ const createRow = () => {
   tr.classList.add('table-light');
   const tdNum = document.createElement('td');
   tdNum.classList.add('number');
-  tdNum.textContent = '1';
+  tdNum.textContent = '';
 
   const tdTask = document.createElement('td');
   tdTask.classList.add('task');
-  tdTask.textContent = 'Сходить в магазин';
+  tdTask.textContent = '';
 
   const tdStatus = document.createElement('td');
   tdStatus.classList.add('status');
@@ -61,6 +61,7 @@ const createRow = () => {
   tr.append(tdNum, tdTask, tdStatus, tdAction);
   return tr;
 };
+
 const createTbody = () => {
   const tbody = document.createElement('tbody');
   tbody.append(createRow());
@@ -73,4 +74,5 @@ export {
   createTable,
   createTheader,
   createTbody,
+  createRow,
 };

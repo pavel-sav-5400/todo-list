@@ -22,6 +22,7 @@ const createInput = () => {
   input.classList.add('form-control');
   input.placeholder = 'Введите текст';
   input.type = 'text';
+
   const label = createLabel();
   label.append(input);
   return input;
@@ -32,13 +33,16 @@ const createButtonsForm = () => {
   btnSave.classList.add('btn', 'btn-primary', 'me-3');
   btnSave.type = 'submit';
   btnSave.textContent = 'Сохранить';
+
   const btnClear = document.createElement('button');
   btnClear.classList.add('btn', 'btn-warning');
   btnClear.type = 'reset';
   btnClear.textContent = 'Очистить';
   form.append(btnSave, btnClear);
+
   return {btnSave, btnClear};
 };
+
 export {
   appContainer,
   createForm,
