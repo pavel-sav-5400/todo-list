@@ -1,50 +1,58 @@
-import {createRow} from './createElemsTable.js';
+import {createTbody} from './createElemsTable.js';
+import {getStorage, addTaskData, removeStorage} from './storage.js';
+
+const data = getStorage();
+const tbody = createTbody();
+
 const form = document.querySelector('form');
 const table = document.querySelector('table');
 
-const formInput = form.addEventListener('click', (e) => {
-  if (e.target.closest('.form-group')) {
-    console.log();
-  }
-});
-const setStorage = contact => {
-  localStorage.setItem('contacts', JSON.stringify(contact));
-  console.log('storage');
-};
-const getStorage = () => (localStorage.getItem('contacts') ?
-  JSON.parse(localStorage.getItem('contacts')) : []);
 
-const addContactData = (contact) => {
-  const data = getStorage();
-  data.push(contact);
-  setStorage(data);
-  console.log(data);
+const createRow = (task) => {
+  tbody.insertAdjacentHTML('beforebegin', `
+  <tr class="table-light">
+            <td class="number">${task.num + 1}</td>
+            <td class="task">
+              ${task.task}
+            </td>
+            <td class="status">
+            В процессе
+            </td>
+            <td>
+              <button class="btn btn-danger">
+               Удалить
+              </button>
+              <button class="btn btn-success">
+                Завершить
+              </button>
+            </td>
+          </tr>
+  `);
 };
 
-const addContactPage = (contact, list) => {
-  list.append(createRow(contact));
-};
 
-// eslint-disable-next-line require-jsdoc
-function getRandomIntInclusive(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
+const renderTasks = data => data.map(createRow);
+renderTasks(data);
 
 const formSave = form.addEventListener('submit', (e) => {
+  // eslint-disable-next-line require-jsdoc
+  function getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
   e.preventDefault();
-  const num = getRandomIntInclusive(100000, 999999);
-  const inputVal = document.querySelector('.form-control').value;
   const formData = new FormData(e.target);
 
-  const newContact = Object.fromEntries(formData);
-  newContact.id = num;
-  newContact.task = inputVal;
-  console.log('newContact: ', newContact);
+  const newTask = Object.fromEntries(formData);
+  newTask.id = getRandomIntInclusive(100000, 999999);
+  newTask.task = document.querySelector('.form-control').value;
+  newTask.num = data.length;
+  console.log('newTask: ', newTask);
 
-  addContactData(newContact);
-  addContactPage(newContact, table);
+  addTaskData(newTask);
+  createRow(newTask);
   form.reset();
 },
 );
@@ -57,7 +65,10 @@ const formClear = form.addEventListener('click', (e) => {
 
 const delList = table.addEventListener('click', (e) => {
   if (e.target.closest('.btn-danger')) {
-    alert('удалить');
+    const dataID = e.target.closest('tr');
+    console.log('del: ', dataID);
+    // dataID.remove();
+    removeStorage();
   }
 });
 
@@ -80,7 +91,7 @@ const complete = table.addEventListener('click', (e) => {
 });
 
 export {
-  formInput,
+  // formInput,
   formSave,
   formClear,
   delList,

@@ -10,7 +10,8 @@ import {
   createMain,
   createTable,
   createTheader,
-  createTbody} from './createElemsTable.js';
+  createTbody,
+} from './createElemsTable.js';
 
 const createTitle = () => {
   const title = document.createElement('h3');
@@ -28,7 +29,7 @@ export const renderTodoList = () => {
   const container = createMain;
   const table = createTable;
   const thead = createTheader();
-  const tbody = createTbody();
+  const tbody = createTbody;
 
   return {
     title,
