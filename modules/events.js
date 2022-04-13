@@ -1,5 +1,5 @@
 import {getStorage, addTaskData, removeStorage} from './storage.js';
-import {createRow, renderTasks, createTbody} from './createElemsTable.js';
+import {createRow, renderTasks} from './createElemsTable.js';
 
 const form = document.querySelector('form');
 const table = document.querySelector('table');
@@ -7,7 +7,6 @@ const table = document.querySelector('table');
 // добавление дела
 
 const formSave = form.addEventListener('submit', (e) => {
-  const tbody = createTbody;
   const data = getStorage();
   // eslint-disable-next-line require-jsdoc
   function getRandomIntInclusive(min, max) {
@@ -26,7 +25,7 @@ const formSave = form.addEventListener('submit', (e) => {
   console.log('newTask: ', newTask);
 
   addTaskData(newTask);
-  tbody.append(createRow(newTask));
+  createRow(newTask);
   form.reset();
 },
 );
