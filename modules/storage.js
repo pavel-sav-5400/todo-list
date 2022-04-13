@@ -8,8 +8,9 @@ const getStorage = () => (localStorage.getItem('tasks') ?
 
 const removeStorage = id => {
   const data = getStorage('tasks');
-  const newData = data.filter(item => item.id !== id);
+  const newData = data.filter(item => ((item.num) !== id));
   setStorage(newData);
+  console.log('remove');
 };
 const addTaskData = (task) => {
   const data = getStorage();

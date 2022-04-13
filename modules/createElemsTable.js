@@ -1,4 +1,7 @@
 import {appContainer} from './createElemsForm.js';
+import {getStorage} from './storage.js';
+
+const data = getStorage();
 
 const createMain = () => {
   const container = document.createElement('div');
@@ -37,9 +40,39 @@ const createTbody = () => {
   return tbody;
 };
 
+const tbody = createTbody();
+
+const createRow = (task) => {
+  tbody.insertAdjacentHTML('beforebegin', `
+  <tr class="table-light">
+            <td class="number" data-id="${task.id}">${task.num + 1}</td>
+            <td class="task">
+              ${task.task}
+            </td>
+            <td class="status">
+            В процессе
+            </td>
+            <td>
+              <button class="btn btn-danger">
+               Удалить
+              </button>
+              <button class="btn btn-success">
+                Завершить
+              </button>
+            </td>
+          </tr>
+  `);
+};
+
+
+const renderTasks = data => data.map(createRow);
+renderTasks(data);
+
 export {
   createMain,
   createTable,
   createTheader,
   createTbody,
+  createRow,
+  renderTasks,
 };

@@ -1,40 +1,14 @@
-import {createTbody} from './createElemsTable.js';
 import {getStorage, addTaskData, removeStorage} from './storage.js';
-
-const data = getStorage();
-const tbody = createTbody();
+import {createRow, renderTasks, createTbody} from './createElemsTable.js';
 
 const form = document.querySelector('form');
 const table = document.querySelector('table');
 
-
-const createRow = (task) => {
-  tbody.insertAdjacentHTML('beforebegin', `
-  <tr class="table-light">
-            <td class="number">${task.num + 1}</td>
-            <td class="task">
-              ${task.task}
-            </td>
-            <td class="status">
-            В процессе
-            </td>
-            <td>
-              <button class="btn btn-danger">
-               Удалить
-              </button>
-              <button class="btn btn-success">
-                Завершить
-              </button>
-            </td>
-          </tr>
-  `);
-};
-
-
-const renderTasks = data => data.map(createRow);
-renderTasks(data);
+// добавление дела
 
 const formSave = form.addEventListener('submit', (e) => {
+  const tbody = createTbody;
+  const data = getStorage();
   // eslint-disable-next-line require-jsdoc
   function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
@@ -52,10 +26,12 @@ const formSave = form.addEventListener('submit', (e) => {
   console.log('newTask: ', newTask);
 
   addTaskData(newTask);
-  createRow(newTask);
+  tbody.append(createRow(newTask));
   form.reset();
 },
 );
+
+// очиска формы
 
 const formClear = form.addEventListener('click', (e) => {
   if (e.target.closest('.btn-warning')) {
@@ -63,12 +39,16 @@ const formClear = form.addEventListener('click', (e) => {
   }
 });
 
+// удаление дела
+
 const delList = table.addEventListener('click', (e) => {
+  const data = getStorage();
+  const dataID = e.target.closest('tr').dataset.id;
   if (e.target.closest('.btn-danger')) {
-    const dataID = e.target.closest('tr');
+    e.target.closest('tr').remove();
+    // renderTasks(data);
     console.log('del: ', dataID);
-    // dataID.remove();
-    removeStorage();
+    removeStorage(dataID);
   }
 });
 
@@ -91,7 +71,6 @@ const complete = table.addEventListener('click', (e) => {
 });
 
 export {
-  // formInput,
   formSave,
   formClear,
   delList,
