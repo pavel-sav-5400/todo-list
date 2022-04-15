@@ -1,5 +1,5 @@
 import {getStorage, addTaskData, removeStorage} from './storage.js';
-import {createRow, renderTasks} from './createElemsTable.js';
+import {createRow} from './createElemsTable.js';
 
 const form = document.querySelector('form');
 const table = document.querySelector('table');
@@ -22,6 +22,7 @@ const formSave = form.addEventListener('submit', (e) => {
   newTask.id = getRandomIntInclusive(100000, 999999);
   newTask.task = document.querySelector('.form-control').value;
   newTask.num = data.length;
+  newTask.status = true;
   console.log('newTask: ', newTask);
 
   addTaskData(newTask);
@@ -41,19 +42,17 @@ const formClear = form.addEventListener('click', (e) => {
 // удаление дела
 
 const delList = table.addEventListener('click', (e) => {
-  const data = getStorage();
-  const dataID = e.target.closest('tr').dataset.id;
+  const dataID = e.target.closest('tr').id;
   if (e.target.closest('.btn-danger')) {
     e.target.closest('tr').remove();
-    // renderTasks(data);
-    console.log('del: ', dataID);
-    removeStorage(dataID);
+    removeStorage(+dataID);
   }
 });
 
 // статус задания
 
 const complete = table.addEventListener('click', (e) => {
+  const data = getStorage();
   const status = e.target.closest('tr').querySelector('.status');
   const task = e.target.closest('tr').querySelector('.task');
   const tr = e.target.closest('tr');

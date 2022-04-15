@@ -43,9 +43,8 @@ const createTbody = () => {
 const tbody = createTbody();
 
 const createRow = (task) => {
-  tbody.insertAdjacentHTML('beforebegin', `
-  <tr class="table-light">
-            <td class="number" data-id="${task.id}">${task.num + 1}</td>
+  const row = `
+            <td class="number">${task.num + 1}</td>
             <td class="task">
               ${task.task}
             </td>
@@ -60,8 +59,12 @@ const createRow = (task) => {
                 Завершить
               </button>
             </td>
-          </tr>
-  `);
+  `;
+  const tr = document.createElement('tr');
+  tr.classList.add('table-light');
+  tr.setAttribute('id', task.id);
+  tr.innerHTML = row;
+  tbody.append(tr);
 };
 
 
