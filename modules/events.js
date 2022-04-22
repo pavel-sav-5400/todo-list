@@ -8,26 +8,22 @@ const table = document.querySelector('table');
 
 const formSave = form.addEventListener('submit', (e) => {
   const data = getStorage();
-  // eslint-disable-next-line require-jsdoc
-  function getRandomIntInclusive(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }
 
   e.preventDefault();
   const formData = new FormData(e.target);
 
   const newTask = Object.fromEntries(formData);
-  newTask.id = getRandomIntInclusive(100000, 999999);
   newTask.task = document.querySelector('.form-control').value;
-  newTask.num = data.length;
-  newTask.status = true;
-  console.log('newTask: ', newTask);
+  newTask.id = data.length + 1;
+  newTask.ready = false;
 
-  addTaskData(newTask);
-  createRow(newTask);
-  form.reset();
+  if (newTask.task === '') {
+    alert('Поле ввода пустое, введите значение!');
+  } else {
+    addTaskData(newTask);
+    createRow(newTask);
+    form.reset();
+  }
 },
 );
 
@@ -52,7 +48,6 @@ const delList = table.addEventListener('click', (e) => {
 // статус задания
 
 const complete = table.addEventListener('click', (e) => {
-  const data = getStorage();
   const status = e.target.closest('tr').querySelector('.status');
   const task = e.target.closest('tr').querySelector('.task');
   const tr = e.target.closest('tr');
