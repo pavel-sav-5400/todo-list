@@ -42,9 +42,9 @@ const createTbody = () => {
 
 const tbody = createTbody();
 
-const createRow = (task) => {
+const createRow = task => {
   const row = `
-            <td class="number">${task.num + 1}</td>
+            <td class="number">${task.id}</td>
             <td class="task">
               ${task.task}
             </td>
